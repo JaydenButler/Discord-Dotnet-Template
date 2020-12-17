@@ -1,0 +1,7 @@
+Library/
+Temp/
+.vs/
+obj/
+.vscode/
+bin/
+RLO/settings.json
