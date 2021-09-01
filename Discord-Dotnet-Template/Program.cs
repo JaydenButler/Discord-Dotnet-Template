@@ -15,6 +15,7 @@ namespace DiscordDotnetTemplate
         public DiscordSocketClient Client;
         public CommandService Commands;
         public IServiceProvider Services;
+        public DiscordSocketConfig Config;
 
         private static void Main(string[] args) => new DiscordBot().RunBotAsync().GetAwaiter().GetResult();
 
@@ -44,9 +45,14 @@ namespace DiscordDotnetTemplate
             //Load our DotEnv file and make var
             DotEnv.Load();
             var envFile = DotEnv.Read();
-            
+
             // Creates the Client, Command Service and Discord Service.
-            Client = new DiscordSocketClient();
+            Config = new DiscordSocketConfig
+            {
+                AlwaysDownloadUsers = true,
+                MessageCacheSize = 100
+            };
+            Client = new DiscordSocketClient(Config);
             Commands = new CommandService();
             Services = new ServiceCollection().AddSingleton(Client).AddSingleton(Commands).BuildServiceProvider();
 
@@ -89,7 +95,7 @@ namespace DiscordDotnetTemplate
             if (msg.HasStringPrefix("!", ref argumentPosition))
             {
                 // Injects the Context variable for the message.
-                var context = new SocketCommandContext(Client, msg);                
+                var context = new SocketCommandContext(Client, msg);
 
                 // Tries to find and execute a command with the remainder of the message.
                 // If there's no command for the remainder of the message, the result will comeback with an Unknown Command message.
