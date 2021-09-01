@@ -15,7 +15,7 @@ namespace DiscordDotnetTemplate
         [Summary("Kick's a specific user")]
         [RequireBotPermission(GuildPermission.KickMembers)]
         [RequireUserPermission(GuildPermission.KickMembers)]
-        public async Task KickAsync(SocketGuildUser user, [Remainder] string reason)
+        public async Task KickAsync(SocketGuildUser user, [Remainder] string reason = "None")
         {
             EmbedBuilder embed = new EmbedBuilder
             {
@@ -24,6 +24,41 @@ namespace DiscordDotnetTemplate
             };
             await user.KickAsync(reason);
             await ReplyAsync("", false, embed.Build());
+        }
+
+        [Command("Ban")]
+        [Summary("Ban's a specific user")]
+        [RequireBotPermission(GuildPermission.BanMembers)]
+        [RequireUserPermission(GuildPermission.BanMembers)]
+        public async Task BanAsync(SocketGuildUser user, [Remainder] string reason = "None")
+        {
+            EmbedBuilder embed = new EmbedBuilder
+            {
+                Title = $"Banned {user.Username}#{user.DiscriminatorValue}",
+                Description = $"Reason: {reason}"
+            };
+            await user.BanAsync(14, reason);
+            await ReplyAsync("", false, embed.Build());
+        }
+
+        [Command("Clear")]
+        [RequireBotPermission(ChannelPermission.ManageMessages)]
+        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        [Summary("Clears a specific amount of messages from a channel")]
+        public async Task ClearAsync(int amount)
+        {
+            if (amount < 99)
+            {
+                var messages = await Context.Channel.GetMessagesAsync(amount + 1).FlattenAsync();
+                await (Context.Channel as SocketTextChannel).DeleteMessagesAsync(messages);
+                var msg = await ReplyAsync($"Deleted **{amount}** messages");
+                await Task.Delay(2000);
+                await msg.DeleteAsync();
+            }
+            else
+            {
+                await ReplyAsync("You cannot delete more than 100 messages at once");
+            }
         }
     }
 }
