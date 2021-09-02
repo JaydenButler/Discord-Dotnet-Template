@@ -41,6 +41,22 @@ namespace DiscordDotnetTemplate
             await ReplyAsync("", false, embed.Build());
         }
 
+        [Command("Softban")]
+        [Summary("Softban's a specific user")]
+        [RequireBotPermission(GuildPermission.BanMembers)]
+        [RequireUserPermission(GuildPermission.BanMembers)]
+        public async Task SoftbanAsync(SocketGuildUser user, [Remainder] string reason = "None")
+        {
+            EmbedBuilder embed = new EmbedBuilder
+            {
+                Title = $"Softbanned {user.Username}#{user.DiscriminatorValue}",
+                Description = $"Reason: {reason}"
+            };
+            await user.BanAsync(14, reason);
+            await Context.Guild.RemoveBanAsync(user.Id);
+            await ReplyAsync("", false, embed.Build());
+        }
+
         [Command("Clear")]
         [RequireBotPermission(ChannelPermission.ManageMessages)]
         [RequireUserPermission(ChannelPermission.ManageMessages)]

@@ -65,6 +65,9 @@ namespace DiscordDotnetTemplate
             // Log the Bot in, as a Bot, using the token retrieved earlier, then start the bot.
             await Client.LoginAsync(Discord.TokenType.Bot, botToken);
             await Client.StartAsync();
+
+            System.Console.WriteLine("Bot is connected!");
+
             // This is so the bot never closes unless there is a bug or error.
             await Task.Delay(-1);
         }
