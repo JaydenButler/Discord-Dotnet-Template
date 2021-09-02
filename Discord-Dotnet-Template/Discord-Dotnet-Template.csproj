@@ -4,9 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Discord.Net" Version="2.2.0" />
-    <PackageReference Include="dotenv.net" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
-    <PackageReference Include="Json.Net" Version="1.0.23" />
+    <PackageReference Include="Discord.Net" Version="2.4.0"/>
+    <PackageReference Include="dotenv.net" Version="3.1.0"/>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1"/>
+    <PackageReference Include="Json.Net" Version="1.0.23"/>
   </ItemGroup>
 </Project>
